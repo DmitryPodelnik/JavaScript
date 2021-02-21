@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        ///1
+        /*
+        class ExtendedDate extends Date {
+
+
+            outputDate() {
+                alert(`Year: ${this.getFullYear()}, Month: ${this.getMonth() + 1}, Day: ${this.getDate()}`);
+            }
+            checkDate() {
+                if (this >= Date.now()) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            isLeapYear() {
+                return (this.getFullYear() % 4 == 0 && this.getFullYear() % 100 != 0 || this.getFullYear() % 400 == 0);
+            }
+            getNextDate() {
+                let nextDay = new ExtendedDate(this);
+                nextDay.setDate(nextDay.getDate() + 1);  
+                return nextDay;
+            }
+        }
+
+        let date = new ExtendedDate(2021, 1, 28);
+        date.outputDate();
+
+        let check = date.checkDate();
+        alert(check);
+
+        let leapCheck = date.isLeapYear();
+        alert(leapCheck);
+
+        let nextDate = date.getNextDate();
+        nextDate.outputDate();
+        */
+
+
+        ///2
+
+        class Marker {
+
+            #color;
+            #ink;
+
+            constructor(ink, color) {
+                this.ink = ink;
+                this.color = color;
+            }
+
+            get color() {
+                return this.#color;
+            }
+
+            set color(value) {
+                if (value != null) {
+                    this.#color = value;
+                }
+            }
+
+            get ink() {
+                return this.#ink;
+            }
+
+            set ink(value) {
+                if (value >= 0 && value <= 100) {
+                    this.#ink = value;
+                }
+            }
+            
+            print(str) {
+                if (typeof (str) == "string") {
+                    let tempStr = str.trim();        
+                    if (typeof (tempStr) == "string") {
+                        let countOfSymbols = tempStr.length / 2 <= this.#ink ? str.length : this.#ink * 2;
+                        let testElem = document.getElementById('test');
+                        if (countOfSymbols != str.length) {
+                            tempStr = str.slice(0, countOfSymbols);
+                            testElem.innerHTML = tempStr;
+                        }
+                        else {
+                            testElem.innerHTML = str;
+                        }
+                        testElem.style.color = this.color;
+                    }
+                }
+            }
+
+
+        }
+
+        class RefilledMarker extends Marker {
+
+            constructor(ink, color) {
+                super(ink, color);
+                this.ink = ink;
+                this.color = color;
+            }
+
+            refillMarker(amount, color) {
+                this.ink = amount;
+                this.color = color;
+            }
+        }
+
+        document.write("<div id='test'>test</div>");
+
+        let refilledMarker = new RefilledMarker(10, "blue");
+        refilledMarker.print("12345678901ssdadsadsa");
+
+
+    </script>
+
+</body>
+
+</html>

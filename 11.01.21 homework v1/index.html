@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+        "use strict"
+        
+        ///1
+        /*
+
+        let result;
+
+        do {
+
+            let name = prompt("Enter your full name: ");
+            let gender = prompt("Enter your gender: ");
+            let age = prompt("Enter your age: ");
+            let email = prompt("Enter your email: ");
+
+            result = `
+            Your full name: ${name}\n
+            Your gender: ${gender}\n
+            Your age: ${age}\n
+            Your email: ${email}\n\n
+            Is everything correct?`;
+
+        } while (!confirm(result));
+
+        alert("Thank you!");
+
+        */
+
+        ///2
+        /*
+        let number;
+
+        do {
+            do {
+
+               number = parseInt(prompt("Enter a number: "), 10);
+          } while (number < 100000 || number > 999999);
+
+           let leftNumbers = Math.trunc(number / 1000);
+           let rightNumbers = number % 1000;
+
+           let resultRightNumbers = 0;
+           let resultLeftNumbers = 0;
+
+           resultRightNumbers += Math.trunc(rightNumbers / 100);
+           resultRightNumbers += Math.trunc(rightNumbers / 10 % 10);
+           resultRightNumbers += Math.trunc(rightNumbers % 10);
+
+           resultLeftNumbers += Math.trunc(leftNumbers / 100);
+           resultLeftNumbers += Math.trunc(leftNumbers / 10 % 10);
+           resultLeftNumbers += Math.trunc(leftNumbers % 10);
+        
+           if (resultLeftNumbers == resultRightNumbers){
+               alert("Your ticket is lucky!");
+           }
+           else {
+               alert("Your ticket is unlucky");
+            }
+        } while (confirm("Would you like to continue?"));
+        */
+
+        ///3
+        /*
+        do {
+            let answer;
+            let leftEdge = 0, rightEdge = 100;
+            let middleNumber;
+            
+            while (answer != "==") {
+                if (leftEdge == rightEdge) {
+                    alert(`Your number is ${leftEdge}`);
+                    break;
+                }
+                middleNumber = Math.trunc((leftEdge + rightEdge) / 2);
+                answer = prompt(`The number is >, < or == ${middleNumber}`);
+                switch (answer) {
+
+                  case ">":
+                    
+                    leftEdge = middleNumber + 1;
+
+                  break;
+
+                   case "<":
+
+                    rightEdge = middleNumber - 1;
+
+                   break;
+
+                    case "==":
+
+                    alert(`Your number is ${middleNumber}`);
+                    break;
+                }
+            }
+
+        } while (confirm("Would you like to try again?"));
+        */
+
+        ///4 
+        /*
+        do {
+
+            let questions = ["1 + 1 will be 2?", "2 + 2 will be 3?", "3 + 3 will be 6?", ];
+            let grades = [1, 2, 3, ];
+            let answers = ["Yes", "No", "Yes", ];
+            let result = 0;
+
+            for (let i = 0; i < questions.length; i++) {
+
+                let answer;
+                do {
+                  answer = prompt(questions[i]);
+
+                  if (answer == answers[i]){
+                       result += grades[i];
+                    }
+                } while (answer != "Yes" && answer != "No");
+            }
+
+            alert(`Your result is ${result}`);
+        } while (confirm("Would you like to continue?"));
+        */
+
+        ///5
+        /*
+        let reg = /^[а-яА-ЯёЁa-zA-Z. ]/;
+
+        do {
+
+            let fullName = prompt("Enter your full name: ");
+
+            if (fullName == null) {
+                alert("Your full name is entered incorrectly!")
+                break;
+            }
+
+            if (/[^А-яЁёA-z\. ]/.test(fullName) || fullName == "") {
+                alert("Your full name is entered incorrectly!");
+            }
+            else {
+                alert("Your full name is entered correctly!")
+                break;
+            }
+        } while (confirm("Would you like to try again?"));
+        */
+
+        ///6
+
+        do {
+
+            let url = prompt("Enter an url: ");
+
+            if (url == null) {
+                alert("URL cannot be null!");
+            }
+
+            let protocol = url.slice(0, url.indexOf("//"));
+            let hostname = url.slice(url.indexOf("//") + 2, url.indexOf("/", url.indexOf("//") + 2));
+            let path = url.slice(url.indexOf(hostname) + hostname.length, url.lastIndexOf("/") + 1);
+
+            let fileName;
+            if (url.indexOf("?") == -1) {
+                fileName = url.slice(url.lastIndexOf("/") + 1, url.length);
+            }
+            else {
+                fileName = url.slice(url.lastIndexOf("/") + 1, url.indexOf("?"));
+            }
+
+            let requestString;
+            if (url.indexOf("?") == -1) {
+                requestString = "";
+            }
+            else {
+                requestString = url.slice(url.indexOf("?") + 1, url.length);
+            }   
+
+            alert(`
+                   Protocol:              ${protocol}
+                   Hostname:           ${hostname}
+                   Path:                     ${path}
+                   Filename:             ${fileName}
+                   Request String:    ${requestString}`);
+
+        } while (confirm("Would you like to try again?"));
+
+
+
+
+
+        
+
+
+
+    </script>
+    
+</body>
+</html>
