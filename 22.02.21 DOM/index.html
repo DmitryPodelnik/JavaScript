@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
+    <link href="styles.css" rel="stylesheet">
+    <title>List</title>
+</head>
+<body>
+
+    <form name="list">
+        <input type="radio" name="action" value="addElToEnd" onclick="setRadioChecked(this)"> Add a new element to end of the list
+        <input type="text" name="elementName" id="textAddElToEnd"><br>
+        <input type="radio" name="action" value="insert" onclick="setRadioChecked(this)">Insert element into the list
+        <input type="text" name="elementName" id="textInsert"><br>
+        <input type="radio" name="action" value="edit" onclick="setRadioChecked(this)">Edit text of list element
+        <input type="text" name="listName" id="textEdit"><br>
+        <input type="radio" name="action" value="addInnerList" onclick="setRadioChecked(this)">Add inner list
+        <input type="text" name="listName" id="textAddInnerList"><br>
+        <input type="radio" name="action" value="deleteEl" onclick="setRadioChecked(this)">Delete element of list<br>
+        <input type="button" name="action" value="Add new list" onclick="addList(this)">
+    </form>
+    
+</body>
+</html>
