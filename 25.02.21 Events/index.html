@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js"></script>
+    <link href="styles.css" rel="stylesheet">
+    <title>List</title>
+</head>
+<body>
+    <ol class="bookList" onmousedown="return false">
+        <li>JavaScript</li>
+        <li>JavaScript</li>
+        <li>JavaScript</li>
+        <li>JavaScript</li>
+        <li>JavaScript</li>
+        <li>JavaScript</li>
+        <li>JavaScript</li>
+    </ol>
+
+    <script>
+        'use strict'
+
+        function changeTextColor(event) {
+            if (event.target.tagName != 'LI') {
+                return;
+            }
+            if (event.ctrlKey) {
+                let selected = document.querySelector('.bookList .selected');
+                if (selected) {
+                    selected.classList.remove('selected');
+                }
+                if (event.target.classList.contains('backSelected')) {
+                    event.target.classList.remove('backSelected');
+                }
+                else {
+                    event.target.classList.add('backSelected');
+                }
+
+                return;
+            }
+            if (event.shiftKey) {
+                let backSelected = document.querySelector('.bookList .backSelected');
+                if (!backSelected) {
+                    return;
+                }
+                let selected = document.querySelector('.bookList .selected');
+                if (selected) {
+                    selected.classList.remove('selected');
+                }
+                
+                selected = document.querySelector('.bookList .backSelected');
+                event.target.classList.add('backSelected');
+
+                for (let i = event.target; i != selected; i = i.nextElementSibling ) {
+                    i.classList.add('backSelected');
+                }
+
+
+
+                return
+            }
+
+            let selected = document.querySelector('.bookList .selected');
+            if (selected) {
+                selected.classList.remove('selected');
+            }
+            selected = document.querySelectorAll('.bookList .backSelected');
+            if (selected) {
+                for (let item of selected) {
+                    item.classList.remove('backSelected');
+                }
+            }
+            event.target.classList.add('selected');
+        }
+
+        document.querySelector('.bookList').addEventListener('click', changeTextColor);
+
+    </script>
+</body>
+</html>

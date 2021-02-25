@@ -1,0 +1,12 @@
+.bookList li {
+    cursor: pointer;
+}
+
+.selected {
+    color: orange;
+}
+
+.backSelected {
+    background-color: orange;
+    color: black;
+}
