@@ -1,0 +1,25 @@
+.box {
+    font: 12pt Arial;
+    border: 3px solid darkblue;
+    padding: 0px;
+}
+
+.title {
+    background-color: rgb(72, 72, 156);
+    padding: 5px;
+    margin: 0px;
+}
+
+.title a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+div {
+    border-collapse: collapse;
+    margin: 2px;
+}
+
+.content {
+    display: none;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="box">
+        <div class="title">
+            <a href="#">What is Lorem Ipsum?</a>
+        </div>
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur ab doloremque harum 
+                vitae deserunt tempore quaerat eaque est eum velit vero voluptatem mollitia, ad, voluptatibus
+                 cum. Voluptatem deleniti amet fuga!</p>
+        </div>
+    </div>
+    <div class="box">
+        <div class="title">
+            <a href="#">Why do we use it?</a>
+        </div>
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur ab doloremque harum 
+                vitae deserunt tempore quaerat eaque est eum velit vero voluptatem mollitia, ad, voluptatibus
+                 cum. Voluptatem deleniti amet fuga!</p>
+        </div>
+    </div>
+    <div class="box">
+        <div class="title">
+            <a href="#">Where does it come from?</a>
+        </div>
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur ab doloremque harum 
+                vitae deserunt tempore quaerat eaque est eum velit vero voluptatem mollitia, ad, voluptatibus
+                 cum. Voluptatem deleniti amet fuga!</p>
+        </div>
+    </div>
+    <div class="box">
+        <div class="title">
+            <a href="#">Where can I get some?</a>
+        </div>
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur ab doloremque harum 
+                vitae deserunt tempore quaerat eaque est eum velit vero voluptatem mollitia, ad, voluptatibus
+                 cum. Voluptatem deleniti amet fuga!</p>
+        </div>
+    </div>
+    <script>
+        function showHide(event) {
+            if (!event.target.parentNode.classList.contains("title")) {
+                return;
+            }
+            let contentBox = event.target.parentNode.nextElementSibling;
+            let contentBoxes = document.querySelectorAll(".content");
+
+            if (contentBox.classList.contains("content") && contentBoxes.length > 3) {
+                contentBox.classList.remove("content");
+            }
+            else {
+                contentBox.classList.add("content");
+            }
+            event.stopPropagation();
+        }
+
+        let content = document.getElementsByClassName("title");
+        for (let item of content) {
+            item.addEventListener("click", showHide);
+        }
+
+    </script>
+
+</body>
+</html>
