@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam 
+        facere tempore a sed nihil similique, assumenda culpa possimus, atque sint, 
+        laudantium est excepturi. Quaerat, aperiam distinctio corporis quis id aspernatur.</div>
+
+    <script>
+        function preventDefaultActions(event) {
+            if ((event.code == 'KeyE' || event.code == 'KeyS') && event.ctrlKey) {
+                event.preventDefault();
+               
+                let mainText;
+
+                let newElement;
+                if (event.code == 'KeyE') {
+                    mainText = text.textContent;
+                    text.remove();
+                    newElement = document.createElement('textarea');
+                }
+                else if (event.code == 'KeyS') {
+                    mainText = text.value;
+                    text.remove();
+                    newElement = document.createElement('div');
+                }
+
+                newElement.innerText = mainText;
+                        newElement.classList.add('textblock');
+                        newElement.id = 'text';
+                        document.body.append(newElement);
+            }
+        }
+
+        addEventListener("keydown", preventDefaultActions);
+    </script>
+
+</body>
+</html>
