@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div id="calendar"></div>
+
+    <script>
+
+        function createCalendar() {
+            let dateTemp = new Date();
+            let date = new Date(dateTemp.getFullYear(), dateTemp.getMonth());
+            let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            let tempMonth = date.getMonth();
+
+            let table = '<table id="mainTable"><thead><tr><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Вс</th></tr><thead><tbody><tr>';
+            for (let i = 0; i < getDay(date); i++) {
+                table += '<td></td>';
+            }
+
+            while (date.getMonth() == tempMonth) {
+                table += '<td>' + date.getDate() + '</td>';
+
+                if (getDay(date) % 7 == 6) { 
+                    table += '</tr><tr>';
+                }
+
+                date.setDate(date.getDate() + 1);
+            }
+
+            if (getDay(date) != 0) {
+                for (let i = getDay(date); i < 7; i++) {
+                    table += '<td></td>';
+                }
+            }
+
+            table += '</tr><tbody></table>';
+
+            let season;
+
+            if (date.getMonth() < 2 || date.getMonth() == 11) {
+                season = 1;
+            }
+            else if (date.getMonth() > 1 && date.getMonth() < 5) {
+                season = 2;
+            }
+            else if (date.getMonth() > 4 && date.getMonth() < 8) {
+                season = 3;
+            }
+            else if (date.getMonth() > 7 && date.getMonth() < 11) {
+                season = 4;
+            }
+
+            let calendar = document.querySelector('#calendar');
+            let caption = document.createElement('caption');
+                caption.innerHTML = `${months[date.getMonth()]}`;
+
+
+            calendar.innerHTML = table;
+            calendar.firstChild.prepend(caption);
+
+            let mainTable = document.querySelector('#mainTable');
+                mainTable.style.backgroundImage = `url(images/${season}.JPG)`;
+
+            let weekNames = document.querySelectorAll('th');           
+            for (let item of weekNames) {
+                if (item.innerText != 'Сб' && item.innerText != 'Вс') {
+                    item.style.backgroundColor = 'orange';
+                }
+                else {
+                    item.style.backgroundColor = 'red';
+                }
+            }
+
+            let days = document.querySelectorAll('td');
+            for (let item of days) {
+                if (item.innerText == dateTemp.getDate()) {
+                    item.style.backgroundColor = 'yellow';
+                }
+                if (item.innerText % 7 == 6 || item.innerText % 7 == 0) { 
+                    item.style.color = 'red';
+                }
+            }
+        }
+
+        function getDay(date) {
+            let day = date.getDay();
+
+            if (day == 0) {
+                day = 7;
+            }
+            return day - 1;
+        }
+
+        createCalendar();
+    </script>
+</body>
+</html>
