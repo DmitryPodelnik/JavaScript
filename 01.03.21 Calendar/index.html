@@ -42,6 +42,12 @@
 
             table += '</tr><tbody></table>';
 
+            let calendar = document.querySelector('#calendar');
+            let caption = document.createElement('caption');
+                caption.innerHTML = `${months[date.getMonth()]}`;
+                calendar.innerHTML = table;
+                calendar.firstChild.prepend(caption);
+
             let season;
 
             if (date.getMonth() < 2 || date.getMonth() == 11) {
@@ -55,16 +61,7 @@
             }
             else if (date.getMonth() > 7 && date.getMonth() < 11) {
                 season = 4;
-            }
-
-            let calendar = document.querySelector('#calendar');
-            let caption = document.createElement('caption');
-                caption.innerHTML = `${months[date.getMonth()]}`;
-
-
-            calendar.innerHTML = table;
-            calendar.firstChild.prepend(caption);
-
+            }           
             let mainTable = document.querySelector('#mainTable');
                 mainTable.style.backgroundImage = `url(images/${season}.JPG)`;
 
