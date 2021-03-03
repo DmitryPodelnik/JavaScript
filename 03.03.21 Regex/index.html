@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form name="lastName"> 
+        Lastname: <input type="text" name="lastname">
+        <input type="button" name="check" value="Check" id="checking" onclick="checkLastname(lastname.value)"> 
+    </form>
+
+    <script>
+        function checkLastname(str) {
+            const r = /^[А-ЯA-Z][а-яa-z]+((-)[А-ЯA-Z][а-яa-z]+)?\s[А-ЯA-Z]\.?\s?[А-ЯA-Z]\.?$/;
+
+            if (r.test(str)) {
+                alert('Lastname is correct!');
+            }
+            else {
+                alert('Lastname is incorrect!');
+            }
+        }
+    </script>
+
+</body>
+</html>
