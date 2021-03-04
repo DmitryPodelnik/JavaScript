@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="form1.php" method="POST" name="booking">  
+        Direction: <select size="1" name="direction">
+            <option selected>Odesa - Lviv</option>
+            <option>Odesa - Kyiv</option>
+            <option>Kyiv - Lviv</option>
+            <option>Lviv - Kyiv</option>
+            <option>Kyiv - Odesa</option>
+        </select>
+        Date: <input type="date" name="date">
+        <input type="button" name="search" value="Search">
+        <input type="button" name="checkBookedTickets" value="Check booked tickets" disabled>
+    </form>
+
+    <script>
+
+        let bookedTickets = [];
+        const priceForSeat = 60;
+
+        class ticket {
+
+            constructor(direction, date, countOfSeats){
+                this.direction = direction;
+                this.date = date;
+                this.countOfSeats = countOfSeats;
+            }
+
+        }
+
+        function calculatePrice(event) {
+            let tempPrice = Number(price.innerText);
+            if (event.target.checked) {
+                    tempPrice += priceForSeat;
+            }
+            else {
+                    tempPrice -= priceForSeat;
+            }
+            price.innerHTML = tempPrice;
+        }
+
+        function initNewElements() {
+            let fragment = new DocumentFragment();
+
+            for (let i = 0; i < 28; i++) {
+                let chkb = document.createElement("input");
+                chkb.type = "checkbox";
+                chkb.value = `${i + 1}`;
+                chkb.addEventListener("change", calculatePrice);
+                fragment.append(chkb);
+                fragment.append(`${i + 1}`);
+                if (i == 14) {
+                    fragment.append(document.createElement("br"));
+                }
+            }
+            fragment.append(document.createElement("br"));
+            fragment.append(document.createElement("br"));
+            let newForm = document.createElement("form");
+                newForm.name = "seats";
+            document.body.append(newForm)
+            newForm.append(fragment);
+
+            let totalPrice = document.createElement("div");
+                totalPrice.innerText = "Total price: ";
+                totalPrice.id = "totalPrice";
+            document.body.append(totalPrice);
+            let price = document.createElement("div");
+                price.id = "price";
+                price.innerText = "0";
+            document.body.append(price);
+
+            let bookButton = document.createElement("input");
+                bookButton.type = "button";
+                bookButton.value = "Book";
+                bookButton.id = "book";
+                bookButton.addEventListener("click", bookTicket);
+            document.body.append(bookButton);
+        }
+
+        function searchTicket() {
+            let hr = document.createElement("hr");
+            booking.append(hr);
+            booking.search.disabled = "true";
+            booking.checkBookedTickets.disabled = "true";
+            initNewElements();
+            document.getElementById("myTickets").parentNode.removeChild(document.getElementById("myTickets"));
+        }
+
+        function bookTicket() {
+            let newTicket = new ticket(booking.direction.value, booking.date.value, Number(price.innerText) / 60);
+            booking.search.removeAttribute("disabled");
+            booking.checkBookedTickets.removeAttribute("disabled");
+            bookedTickets.push(newTicket);
+            booking.reset();
+            seats.reset();
+            seats.remove();
+            totalPrice.remove();
+            price.remove();
+            book.remove();
+        }
+
+        function checkBookedTickets() {
+            let table = document.createElement("table");
+                table.className = "bTickets"
+                table.id = "myTickets";
+            document.body.append(table);
+
+            let capture = document.createElement("capture");
+                capture.innerText = "My tickets: ";
+            table.append(capture);
+
+            let tr = document.createElement("tr");
+                tr.id = "thead";
+            table.append(tr);
+
+            let th = document.createElement("th");
+                th.innerText = "Direction";
+            thead.append(th);
+                th = document.createElement("th");
+                th.innerText = "Date";
+            thead.append(th);
+                th = document.createElement("th");
+                th.innerText = "Seats";
+            thead.append(th);
+
+            for (let i = 0; i < bookedTickets.length; i++) {
+                tr = document.createElement("tr");
+                for (let j = 0; j < 3; j++) {
+                    let td = document.createElement("td");
+                    if (j == 0) {
+                        td.innerText = bookedTickets[i].direction;
+                    }
+                    else if (j == 1) {
+                        td.innerText = bookedTickets[i].date;
+                    }
+                    else if (j == 2) {
+                        td.innerText = bookedTickets[i].countOfSeats;
+                    }
+                    tr.append(td);
+                }
+                table.append(tr);
+            }
+            
+        }
+        
+        booking.search.addEventListener("click", searchTicket);
+        booking.checkBookedTickets.addEventListener("click", checkBookedTickets);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+#search {
+    width: 100px;
+}
+
+#book {
+    margin: 10px;
+}
+
+input[type="checkbox"] {
+    margin: 5px;
+    vertical-align: middle;
+}
+
+.bTickets {
+    position: absolute;
+    top: 250px;
+}
+
+td, th {
+    padding: 10px;
+    border: 2px solid black;
+}
+
+.closedTable {
+    display: none;
+}
