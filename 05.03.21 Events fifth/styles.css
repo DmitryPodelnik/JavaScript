@@ -1,0 +1,5 @@
+th, td {
+    border: 2px solid black;
+    margin: 0px;
+    border-collapse: collapse;
+}

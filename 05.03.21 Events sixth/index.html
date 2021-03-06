@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="textBlock">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Illum exercitationem delectus enim repellendus accusantium 
+        omnis quasi ea molestias quos similique eveniet odit nobis 
+        eligendi officia repudiandae, ipsa ipsugjm libero eum.
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. A aspernatur culpa temporibus et non possimus exercitationem expedita repellat nihil nemo, obcaecati sequi nostrum assumenda soluta deserunt laudantium facilis id quae?
+        <div id="blockResize"></div>
+    </div>
+
+
+    <script>
+        let currentMouseX;
+        let currentMouseY;
+        let deltaHeightBlock = 0;
+        let deltaWeightBlock = 0;
+        let currentWeightBlock;
+        let currentHeightBlock;
+        let mainTextBox = document.getElementById('textBlock');
+        let resizeBlock = document.getElementById('blockResize');
+
+        document.addEventListener('mouseup', clearXY);
+        resizeBlock.addEventListener('mousedown', calculateCoordinates);
+
+        function resizeTextBlock(event) {
+            getMouseXY(event);
+
+            let coordsTextBlock = mainTextBox.getBoundingClientRect();
+            let coordResizeBlock = resizeBlock.getBoundingClientRect();
+
+            let newWidthBlock = deltaWeightBlock + currentMouseX;
+            let newHeightBlock = deltaHeightBlock + currentMouseY;
+
+            mainTextBox.style.width = newWidthBlock + 'px';
+            mainTextBox.style.height = newHeightBlock + 'px';
+
+            resizeBlock.style.left = coordsTextBlock.width - coordResizeBlock.width - 2 + 'px';
+            resizeBlock.style.top = coordsTextBlock.height - coordResizeBlock.height - 2 + 'px';
+
+            if (mainTextBox.offsetLeft + mainTextBox.clientWidth > clientWidth()) mainTextBox.style.width = (clientWidth() - mainTextBox.offsetLeft)  + "px";
+            if (mainTextBox.offsetTop + mainTextBox.clientHeight > clientHeight()) mainTextBox.style.height = (clientHeight() - mainTextBox.offsetTop) + "px";
+        }
+
+        function getMouseXY(event) {
+            currentMouseX = event.pageX;
+            currentMouseY = event.pageY;
+        }
+
+        function clientWidth() {
+            return document.documentElement.clientWidth == 0 ? document.body.clientWidth : document.documentElement.clientWidth;
+        }
+
+        function clientHeight() {
+            return document.documentElement.clientHeight == 0 ? document.body.clientHeight : document.documentElement.clientHeight;
+        }
+
+        function calculateCoordinates(event) {
+            currentWeightBlock = mainTextBox.clientWidth; 
+            currentHeightBlock = mainTextBox.clientHeight; 
+            getMouseXY(event);
+
+            deltaHeightBlock = currentHeightBlock - currentMouseY;
+            deltaWeightBlock = currentWeightBlock - currentMouseX; 
+
+            document.addEventListener('mousemove', resizeTextBlock);
+            event.preventDefault();
+        }
+
+        function clearXY() {
+            document.removeEventListener('mousemove', resizeTextBlock);
+        }
+
+        resizeBlock.addEventListener('mousedown', calculateCoordinates);
+    </script>
+</body>
+</html>
