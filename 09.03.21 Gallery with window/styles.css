@@ -1,0 +1,18 @@
+#gallery {
+    background-image: url(IMG/TITLE.JPG);
+    height: 250px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+#background {
+    background-image: url(IMG/BG1.JPG);    
+    text-align: center;
+    color: white;
+}
+
+.thumb {
+    margin: 20px;
+    border: 5px solid black;
+    cursor: pointer;
+}

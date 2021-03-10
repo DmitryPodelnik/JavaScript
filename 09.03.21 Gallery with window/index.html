@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="background"> 
+        <div id="gallery"></div>
+        <h1>Компьютерная графика и дизайн</h1>
+        <p>
+            <img class="thumb" src="DESIGN/SMALL/P0.JPG" onClick="showPicture(1)">
+            <img class="thumb" src="DESIGN/SMALL/P1.JPG" onClick="showPicture(2)">
+            <img class="thumb" src="DESIGN/SMALL/P2.JPG" onClick="showPicture(3)">
+            <img class="thumb" src="DESIGN/SMALL/P3.JPG" onClick="showPicture(4)">
+            <img class="thumb" src="DESIGN/SMALL/P4.JPG" onClick="showPicture(5)">
+            <img class="thumb" src="DESIGN/SMALL/P5.JPG" onClick="showPicture(6)">
+            <img class="thumb" src="DESIGN/SMALL/P6.JPG" onClick="showPicture(7)">
+        </p>
+    </div>
+
+    <script>
+        "use strict"
+
+        let collection = document.getElementsByClassName("thumb");
+
+        for (let item of collection) {
+            item.addEventListener("click", showPicture);
+        }
+
+		function showPicture(n) {
+			window.open("show.html?" + n, "",
+			            "width=200, height=200, resizable=no, left=" + (screen.width / 2 - 100) + ", top=" + (screen.height / 2 - 100));
+		}
+    </script>
+</body>
+</html>

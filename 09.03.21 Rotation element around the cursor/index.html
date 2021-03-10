@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+   <div id="rotatingElement"></div>
+
+    <script>
+        "use strict"
+        
+        const delay = 20;
+        const R = 80;                  
+        const da = 3 * Math.PI / 180; 
+        let a = 0;                     
+
+        let mouseX;
+        let mouseY;
+
+        function getMouseCoords(event) {
+            mouseX = event.pageX;
+            mouseY = event.pageY;
+        }
+
+        function moveElem(event) {
+            rotatingElement.style.left = mouseX - (R * Math.cos(a)) + "px";
+            rotatingElement.style.top = mouseY - (R * Math.sin(a)) + "px";
+            a += da;
+        }
+
+        document.addEventListener("mousemove", getMouseCoords);
+        setInterval("moveElem()", delay);
+    </script>
+</body>
+</html>

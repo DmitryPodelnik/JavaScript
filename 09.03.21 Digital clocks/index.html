@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+    <img name="hr_f" src="images/0.gif">
+	<img name="hr_l" src="images/0.gif">
+	<img src="images/points.gif">
+	<img name="min_f" src="images/0.gif">
+	<img name="min_l" src="images/0.gif">
+	<img src="images/points.gif">
+	<img name="sec_f" src="images/0.gif">
+	<img name="sec_l" src="images/0.gif">
+
+    <script>
+        "use strict"
+
+        updateClock();
+        setInterval("updateClock()", 1000);
+        
+
+        function format(n) {
+            return (n < 10 ? "0" : "") + n;
+        }
+
+        function updateClock() {
+            let date = new Date();
+
+            let str = format(date.getSeconds());
+            document.images["sec_f"].src = "images/" + str.slice(0, 1) + ".gif";
+            document.images["sec_l"].src = "images/" + str.slice(1) + ".gif";
+
+            str = format(date.getMinutes());
+            document.images["min_f"].src = "images/" + str.slice(0, 1) + ".gif";
+            document.images["min_l"].src = "images/" + str.slice(1) + ".gif";
+
+            str = format(date.getHours());
+            document.images["hr_f"].src = "images/" + str.slice(0, 1) + ".gif";
+            document.images["hr_l"].src = "images/" + str.slice(1) + ".gif";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <img src="" name="bigImage" oncontextmenu="return false;" onload="imgLoad()">
+
+    <script>
+        "use strict"
+
+		let fname = parseInt(location.search.slice(1));
+
+        fname = (fname < 10 ? "0" : "") + fname;
+        document.images["bigImage"].src = `DESIGN/${fname}.jpg`;
+
+        function imgLoad() {
+            let hSize = document.images["bigImage"].width + 40,
+            vSize = document.images["bigImage"].height + 90;
+
+            window.resizeTo(hSize, vSize);
+            window.moveTo(screen.width / 2 - hSize / 2, screen.height / 2 - vSize / 2);
+        }
+    </script>
+</body>
+</html>
