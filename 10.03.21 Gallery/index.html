@@ -49,8 +49,9 @@
                 return;
             }
 
-            let nextPicture = event.target.src;
-            mainPicture.src = nextPicture;
+            let nextPicture = mainPicture.src
+            mainPicture.src = event.target.src;
+            event.target.src = nextPicture;
         }
     </script>
 </body>
