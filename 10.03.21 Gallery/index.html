@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts.js"></script>
+    <link href="styles.css" rel="stylesheet">
+    <title>Gallery</title>
+</head>
+<body>
+    <div id="gallery">
+        <img id="mainPicture" src="images/1.JPG"><br>
+        <img src="images/2.JPG">
+        <img src="images/3.JPG">
+        <img src="images/4.JPG">
+        <img src="images/5.JPG">
+        <img src="images/6.JPG">
+        <img src="images/7.JPG">
+    </div>
+
+    <script>
+        "use strict"
+
+        let gallery = document.querySelector("#gallery");
+            gallery.addEventListener("click", changePicture);
+
+        let mainPicture = document.querySelector("#mainPicture");
+
+        let count = 0;
+        let path = ["images/1.JPG", "images/2.JPG", "images/4.JPG", "images/4.JPG", 
+                    "images/5.JPG", "images/6.JPG", "images/7.JPG"];
+        let img = [];
+
+        for (let i = 0; i < path.length; i++) {
+            img[i] = new Image();
+            img[i].src = path[i];
+            img[i].onload = () => {count++;}
+        }
+
+        function changePicture(event) {
+            if (count != path.length) {
+                return;
+            }
+            if (event.target.nodeName != "IMG") {
+                return;
+            }
+            if (event.target.src == mainPicture.src) {
+                return;
+            }
+
+            let nextPicture = event.target.src;
+            mainPicture.src = nextPicture;
+        }
+    </script>
+</body>
+</html>

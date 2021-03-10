@@ -1,0 +1,15 @@
+img {
+    border: 2px solid black;
+    margin: 10px;
+}
+
+#mainPicture {
+    width: 315px;
+    height: 250px;
+    margin-left: 230px;
+}
+
+#gallery {
+    border: 5px solid black;
+    width:fit-content;
+}
