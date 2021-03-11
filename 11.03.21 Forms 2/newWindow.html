@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+
+
+
+    <script>
+        "use strict"
+
+        let data = location.search.split(";");
+            data[0] = data[0].replace("?", "");
+
+        let table = document.createElement("table");
+            table.id = "mainTable";
+        document.body.append(table);
+
+        for (let i = 0; i < 5; i++) {
+            let tr = document.createElement("tr");
+            for (let j = 0; j < 2; j++) {
+                let td = document.createElement("td");
+                if (j == 0) {
+                    if (i == 0) {
+                        td.innerText = "Логин";
+                    }
+                    else if (i == 1) {
+                        td.innerText = "Полное имя";
+                    }
+                    else if (i == 2) {
+                        td.innerText = "Пол";
+                    }
+                    else if (i == 3) {
+                        td.innerText = "Специализация";
+                    }
+                    else if (i == 4) {
+                        td.innerText = "Должность";
+                    }
+                }
+                else {
+                    td.innerText = data[i];
+                }
+                tr.append(td);
+            }
+            table.append(tr);
+        }
+
+
+
+
+
+    </script>
+</body>
+</html>

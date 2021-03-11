@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form name="registration">
+        <div>
+            <h2 id="mainCapture">Регистрация</h2>
+            <span>Логин: <input type="text" name="login"></span>
+            <span>Пароль: <input type="password" name="password"></span>
+            <span>Подтверждение: <input type="password" name="passConfirmation"></span>
+            <span>Полное имя: <input type="text" name="fullName"></span><br>
+            <span id="sex">Пол:
+                <div>
+                    <span>
+                        <input type="radio" name="sex" value="male">М
+                    </span>
+                    <span>
+                        <input type="radio" name="sex" value="female">Ж
+                    </span>
+                </div>
+            </span><br>
+            <span id="speciality">Специализация:
+                <div>
+                    <span>
+                        <input type="checkbox" name="speciality" value="Design">Дизайн
+                    </span>
+                    <span>
+                        <input type="checkbox" name="speciality" value="Programming">Программирование
+                    </span>
+                    <span>
+                        <input type="checkbox" name="speciality" value="Administration">Администрирование
+                    </span>
+                </div>    
+            </span>
+
+            <div>
+                <span>Должность</span>
+                <select id="appointment">
+                    <option selected value="">----------Выберите----------</option>
+                    <option value="Director">Директор</option>
+                    <option value="ProjectManager">Руководитель проекта</option>
+                    <option value="DepartmentHead">Начальник отдела</option>
+                    <option value="Developer">Программист</option>
+                    <option value="Designer">Дизайнер</option>
+                    <option value="Consultor">Консультант</option>
+                    <option value="Employee">Служащий</option>
+                </select>
+            </div>
+
+            <div>
+                <input type="submit" name="register" value="Регистрация" onclick="checkForm(); return false;">
+                <input type="reset" name="reset" value="Сброс">
+            </div>
+        </div>
+    </form>
+
+    <script>
+        "use strict"
+
+        function showPicture(str) {
+			window.open("newWindow.html?" + str);
+		}
+
+        function checkForm(event) {
+            if (registration.login.value.length == 0) {
+                alert("Заполните логин, пожалуйста.");
+                return;
+            }
+            if (registration.password.value.length < 3 || registration.password.value.length > 10) {
+                alert("Пароль должен содержать от 3 до 10 символов.");
+                return;
+            }
+            if (registration.password.value != registration.passConfirmation.value) {
+                alert("Пароли не совпадают.");
+                return;
+            }
+            if (registration.fullName.value.length == 0) {
+                alert("Заполните полное имя, пожалуйста.");
+                return;
+            }
+
+            let tempSex;
+            for (let item of registration.sex) {
+                if (item.checked) {
+                    tempSex = item.value;
+                    break;
+                }
+            }
+            if (!tempSex) {
+                alert("Выберите пол, пожалуйста.");
+                return;
+            }
+            
+            let tempSpeciality;
+            for (let item of registration.elements) {
+                if (item.type == "checkbox" && item.checked) {
+                    tempSpeciality = item.value;
+                    break;
+                }
+            }
+            if (!tempSpeciality) {
+                alert("Выберите специализацию, пожалуйста.");
+                return;
+            }
+
+            if (registration.appointment.value == "") {
+                alert("Выберите должность, пожалуйста.");
+                return;
+            }
+
+            let str = "";
+            str += registration.login.value + ";";
+            str += registration.fullName.value + ";";
+            str += tempSex + ";";
+            str += tempSpeciality + ";";
+            str += registration.appointment.options[registration.appointment.selectedIndex].value;
+
+            showPicture(str);
+            regform.submit();
+        }
+
+    </script>
+</body>
+</html>

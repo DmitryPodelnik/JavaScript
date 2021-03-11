@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../jquery-3.6.0.min.js"></script>
+    <script>
+        function valid() {
+            let state = $("input[name='sex']:checked").val();
+            $("#img").show();
+            if (!state) {
+                return $("#message").html("<font style='color:red'>Укажите ваш пол!<br>");
+            }
+            $("#message").hide();
+
+            if (state == "male") {
+                $("#img").show();
+            }
+        
+            let test = $("div, p");
+        }
+    </script>
+</head>
+<body>
+
+    <form name="form" id="form">
+        <label for="female">Female</label>
+        <input type="radio" id="female" name="sex" value="female"/>
+        <label for="male">Male</label>
+        <input type="radio" id="male" name="sex" value="male"/>
+        <br><br>
+        <span id="message"></span>
+        <input type="button" id="done" onclick="return valid()" value="Submit">
+
+    </form>
+
+    <img src="1.ijpg" style="display: none" id="img">
+
+</body>
+</html>
