@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form name="exam">
+        <input type="button" name="answer" value="Answer" id="answerButton">
+    </form>
+
+
+    <script>
+        "use strict"
+
+        let questions = [
+                "Mila would never cheat … an exam, she's too honest for that.",
+                "Greg is really satisfied … his new college course, so he has given up the idea of dropping out.",
+                "Ann is often accused … her promises.",
+                "They never have time to go … the details of any plans, they can only give general ideas.",
+                "Olivia tried … her coffee with cream instead of milk, and she liked it very much.",
+            ];
+        let answers = [
+                {ans1 :"in", ans2: "to", ans3: "off"},
+                {ans1 :"at", ans2 :"of", ans3 :"with"},
+                {ans1 :"she broke", ans2 :"of breaking", ans3 :"to have broken"},
+                {ans1 :"through", ans2 :"into", ans3 :"to"},
+                {ans1 :"to take", ans2 :"taking", ans3 :"to taking"},
+            ];
+
+        let counterd = 0;
+        let name = prompt("Введите ваше имя: ");
+        let res = 0;
+        function showQuestion(counter) {
+                let check;
+                for (let item of exam.elements) {
+                    if (item.type == "checkbox" && item.checked) {
+                        check = item.value;
+                        break;
+                    }
+                }
+
+                if (counterd == 1 && check == 1 || counterd == 2 && check == 2 || counterd == 3 && check == 3 || 
+                    counterd == 4 && check == 1 || counterd == 5 && check == 2) {
+                    res += 5;
+                }
+
+                if (counterd < 5 && (check || counterd == 0)) {
+                    exam.remove();
+                    let form = document.createElement("form");
+                    form.name = "exam";
+                    let button = document.createElement("input");
+                    button.type = "button";
+                    button.name = "answer";
+                    button.value = "Answer";
+                    button.id = "answerButton";
+                    form.append(button);
+                    document.body.append(form);
+
+                    let span = document.createElement("span");
+                    span.innerText = questions[counterd];
+                    exam.answer.before(span);
+                    exam.answer.before(document.createElement("br"));
+
+                    for (let i = 1; i <= 3; i++) {
+                        let checkbox = document.createElement("input");
+                            checkbox.type = "checkbox";
+                            checkbox.value = i;
+                        let span = document.createElement("span");
+                            span.innerText = answers[counterd]["ans" + i];
+                        exam.answer.before(checkbox);
+                        exam.answer.before(span);
+                    }
+                    counterd++;
+
+                    exam.answer.addEventListener("click", showQuestion);
+                }
+                else if (counterd > 4 && check) {
+                    alert(`Поздравляем, ${name}! Тест сдан на ${res}`);
+                }
+            }
+        showQuestion(counterd);
+        exam.answer.addEventListener("click", showQuestion);
+
+    </script>
+</body>
+</html>
