@@ -1,0 +1,9 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+#answerButton {
+    width: fit-content;
+    margin: 5px;
+}
