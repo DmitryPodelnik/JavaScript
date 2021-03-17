@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body >
+    
+    <form name="mainForm">
+        <table class="form_holder1" cellspacing="1">
+            <thead>
+                <tr>
+                    <td colspan="2" class="centerAlign">Регистрация на сервере:</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Логин:</td>
+                    <td><input size="26" type="text" name="login" /></td>
+                </tr>
+                <tr>
+                    <td>Пароль:</td>
+                    <td><input size="26" type="password" name="password" /></td>
+                </tr>
+                <tr>
+                    <td>Подтверждение:</td>
+                    <td><input size="26" type="password" name="confirmPassword" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="centerAlign">
+                        <hr />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Полное имя (ФИО):</td>
+                    <td><input size="26" type="text" name="fullname" /></td>
+                </tr>
+                <tr class="topVerticalAlign">
+                    <td>Пол:</td>
+                    <td>
+                        <input type="radio" name="radio_gender" value="male" />мужской<br />
+                        <input type="radio" name="radio_gender" value="female" />женский
+                    </td>
+                </tr>
+                <tr class="topVerticalAlign">
+                    <td>
+                        Иностранные<br />
+                        языки:
+                    </td>
+                    <td>
+                        <input type="checkbox" name="check_languages_1" />Английский<br />
+                        <input type="checkbox" name="check_languages_2" />Немецкий<br />
+                        <input type="checkbox" name="check_languages_3" />Французский<br />
+                        <input type="checkbox" name="check_languages_4" />Испанский<br />
+                        <input type="checkbox" name="check_languages_5" />Итальянский<br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Сфера деятельности:</td>
+                    <td>
+                        <select name="list_work">
+                            <option value="0">обслуживание</option>
+                            <option value="1" selected>образование</option>
+                            <option value="2">медицина</option>
+                            <option value="3">наука</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>e-mail:</td>
+                    <td><input size="26" type="text" name="e_mail" /></td>
+                </tr>
+                <tr class="topVerticalAlign">
+                    <td>
+                        Дополнительная<br />
+                        информация:
+                    </td>
+                    <td>
+                        <textarea name="text_info" cols="20" rows="5"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="centerAlign">
+                        <input type="submit" name="submit" value="Готово" /> <input type="reset" value="Сброс" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <script>
+        "use strict"
+
+    
+
+        function checkOnCorrectEmail(str) {
+            const r = /^[a-zA-Z]\w{2,15}@([a-z]+\.)+[a-z]{2,3}$/;
+
+            if (!r.test(str)) {
+                alert("Введите верный email!");
+                return false;
+            }
+            return true;
+        }
+
+        function isFormCorrect() {
+            if (mainForm.login.value.length == 0) {
+                alert("Заполните логин, пожалуйста.");
+                return;
+            }
+            if (mainForm.password.value.length < 3 || mainForm.password.value.length > 10) {
+                alert("Пароль должен содержать от 3 до 10 символов.");
+                return;
+            }
+            if (mainForm.password.value != mainForm.confirmPassword.value) {
+                alert("Пароли не совпадают.");
+                return;
+            }
+            if (mainForm.fullname.value.length == 0) {
+                alert("Заполните полное имя, пожалуйста.");
+                return;
+            }
+
+            let tempSex;
+            for (let item of mainForm.radio_gender) {
+                if (item.checked) {
+                    tempSex = item.value;
+                    break;
+                }
+            }
+            if (!tempSex) {
+                alert("Выберите пол, пожалуйста.");
+                return;
+            }
+
+            let tempLanguages;
+            for (let item of mainForm.elements) {
+                if (item.type == "checkbox" && item.checked) {
+                    tempLanguages = item.name;
+                    break;
+                }
+            }
+            if (!tempLanguages) {
+                alert("Выберите иностранные языки, пожалуйста.");
+                return;
+            }
+
+            let checkEmail = checkOnCorrectEmail(mainForm.e_mail.value);
+            if (!checkEmail) {
+                return;
+            }
+
+            localStorage.setItem("login", mainForm.login.value);
+            localStorage.setItem("password", mainForm.password.value);
+            localStorage.setItem("confirmPassword", mainForm.confirmPassword.value);
+            localStorage.setItem("fullName", mainForm.fullname.value);
+            localStorage.setItem("language", tempLanguages);
+            localStorage.setItem("sex", tempSex);
+            localStorage.setItem("email", mainForm.e_mail.value);
+
+            mainForm.submit();
+        }
+
+        function previousData() {
+            if (localStorage.length != 0) {
+                mainForm.login.value = localStorage.getItem("login");
+                mainForm.password.value = localStorage.getItem("password");
+                mainForm.confirmPassword.value = localStorage.getItem("confirmPassword");
+                mainForm.fullname.value = localStorage.getItem("fullName");
+                mainForm.e_mail.value = localStorage.getItem("email");
+
+                let language = localStorage.getItem("language");
+                for (let item of mainForm.elements) {
+                    if (item.name == language) {
+                        item.checked = true;
+                        break;
+                    }
+                }
+
+                let sex = localStorage.getItem("sex");
+                for (let item of mainForm.radio_gender) {
+                    if (item.value == sex) {
+                        item.checked = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        mainForm.submit.addEventListener("click", isFormCorrect);
+        document.addEventListener("DOMContentLoaded", previousData);
+
+    </script>
+</body>
+</html>

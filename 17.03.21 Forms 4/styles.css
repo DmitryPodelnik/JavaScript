@@ -1,0 +1,22 @@
+body {
+    font: 10pt Tahoma;
+}
+
+table.form_holder1 {
+    font: 10pt Tahoma;
+    background-color: #ddeeff;
+}
+
+table.form_holder1 thead {
+    background-color: #334466;
+    color: white;
+    font-weight: bold;
+}
+
+.centerAlign {
+    text-align: center;
+}
+
+.topVerticalAlign {
+    vertical-align: top;
+}
