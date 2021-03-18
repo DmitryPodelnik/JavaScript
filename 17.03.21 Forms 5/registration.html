@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+    <script src="../jQuery/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    
+    <form name="registration">
+        <h2>Registration</h2>
+        <div class="capture">
+            <span>Email: </span><span id="wrongEmail">Wrong email address</span>
+        </div>
+        <input type="text" name="email" >
+        <div class="capture">
+            <span>Password: </span><span id="wrongPassword">Wrong password</span>
+        </div>
+        <input type="password" name="password" >
+        <div class="capture">
+            <span>Repeat: </span><span id="notMatchPasswords">Passwords must match</span>
+        </div>
+        <input type="password" name="confirmPassword" >
+        <input type="submit" name="signUp" value="Sign Up">
+    </form>
+
+
+    <script>
+        "use strict"
+
+        function initialCheck() {
+            let email = localStorage.getItem("email");
+            let password = localStorage.getItem("password");
+            
+            if (email && password) {
+                window.open("userInformation.html");
+            }
+        }
+        
+        function checkOnCorrectEmail(str) {
+            const r = /^[a-zA-Z]\w{2,15}@([a-z]+\.)+[a-z]{2,3}$/;
+
+            if (!r.test(str)) {
+                $("#wrongEmail").show();
+                return false;
+            }
+            $("#wrongEmail").hide();
+            return true;
+        }
+
+        function checkOnCorrectPassword(str) {
+            const r1 = /[a-z]+/;
+            const r2 = /[A-Z]+/;
+            const r3 = /\d+/;
+
+            if (!r1.test(str) || !r2.test(str) || !r3.test(str)) {
+                //alert("Пароль должен содержать минимум 1 цифру, 1 букву в нижнем регистре и 1 букву в верхнем регистре!");
+                $("#wrongPassword").show();
+                return false;
+            }
+            $("#wrongPassword").hide();
+            return true;
+        }
+
+        function isFormCorrect() {
+            let check = false;
+            let checkEmail = checkOnCorrectEmail(registration.email.value);
+            if (!checkEmail) {
+                check = true;
+            }
+
+            if (registration.password.value.length < 6) {
+                //alert("Пароль должен содержать от 6 символов.");
+                $("#wrongPassword").show();
+                check = true;
+            }
+            else {
+                $("#wrongPassword").hide();
+            }
+            if(!checkOnCorrectPassword(registration.password.value)) {
+                check = true;
+            }
+            if (registration.password.value != registration.confirmPassword.value) {
+                //alert("Пароли не совпадают.");
+                $("#notMatchPasswords").show();
+                check = true;
+            }
+            else {
+                $("wrongMatchPasswords").hide();
+            }
+
+            if (check) {
+                event.preventDefault();    
+                return;  
+            }
+
+            localStorage.setItem("email", registration.email.value);
+            localStorage.setItem("password", registration.password.value.length);
+
+            window.open("userInformation.html");
+
+            registration.submit();
+        }
+
+        registration.signUp.addEventListener("click", isFormCorrect);
+        document.addEventListener("DOMContentLoaded", initialCheck);
+
+    </script>
+</body>
+</html>

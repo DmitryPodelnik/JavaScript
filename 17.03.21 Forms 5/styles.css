@@ -1,0 +1,55 @@
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+form input {
+    margin-bottom: 3px;
+}
+
+form h2 {
+    text-align: center;
+}
+
+form input[type='button'] {
+    margin-top: 10px;
+}
+
+#exit {
+    cursor: pointer;
+}
+
+.capture {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.capture span:last-child {
+    color: red;
+    font-weight: bold;
+    display: none;
+}
+
+#header {
+    text-align: right;
+    width: 500px;
+}
+
+#header a {
+    margin: 10px;
+}
+
+form[name='userInfo'] {
+    width: 500px;
+}
+
+form[name='userInfo'] div div {
+    display: flex;
+    flex-direction: column;
+}
+
+form[name='userInfo'] input[type='submit'] {
+    margin-top: 10px;
+}

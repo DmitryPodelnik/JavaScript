@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+    <script src="../jQuery/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <div id="header">
+        <span id="welcome">Hello, </span>
+        <a href="registration.html" id="exit">exit</a>
+        <hr>
+    </div>
+    <form name="userInfo">
+        <h2>User Info</h1>
+
+        <div>
+            <div>
+                <div class="capture">
+                    <span>First Name: </span><span id="wrongFirstName">Wrong FirstName</span>
+                </div>
+                <input type="text" name="firstName">
+                <div class="capture">
+                    <span>Last Name: </span><span id="wrongLastName">Wrong LastName</span>
+                </div>
+                <input type="text" name="lastName">
+            </div>
+            <div>
+                <div class="capture">
+                    <span>Year of birth: </span><span id="wrongBirthDate">Choose correct birthdate</span>
+                </div>    
+                <input type="date" name="birthDate">
+                <div class="capture">
+                    <span>Gender: </span><span id="wrongGender">Choose gender</span>
+                </div>
+                <select name="sex">
+                    <option selected value="">----------Выберите----------</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div>
+                <div class="capture">
+                    <span>Phone number: </span><span id="wrongPhoneNumber">Wrong phone number</span>
+                </div>    
+                <input type="number" name="number">
+                <span>Skype: </span>
+                <input type="text" name="skype">
+            </div>
+        </div>
+        <input type="button" name="save" value="Save">
+    </form>
+
+    <script>
+        "use strict"
+
+        let check = false;
+        let email = "";
+
+        function isOnlyLetters(str) {
+            const r = /[a-z][A-Z][а-я][А-Я]/;
+
+            if (r.test(str)) {
+                return true;
+            }
+            return false;
+        }
+
+        function isCorrectBirthDate(str) {
+            const r = /^\d{4}$/;
+
+            if (r.test(str)) {
+                return true;
+            }
+            return false;
+        } 
+
+        function isCorrectFirstName() {
+            if (!isOnlyLetters(userInfo.firstName.value)) {
+                if (userInfo.firstName.value.length < 6 || userInfo.firstName.value.length > 20) {
+                    //alert("Введите имя корректно!");
+                    $("#wrongFirstName").show();
+                    check = true;
+                }
+                else {
+                $("#wrongFirstName").hide();
+                check = false;
+            }
+            }
+            else {
+                $("#wrongFirstName").hide();
+                check = false;
+            }
+        }
+
+        function isCorrectLastName() {
+            if (!isOnlyLetters(userInfo.lastName.value)) {
+                if (userInfo.lastName.value.length < 6 || userInfo.lastName.value.length > 20) {
+                    //alert("Введите фамилию корректно!");
+                    $("#wrongLastName").show();
+                }
+                else {
+                $("#wrongLastName").hide();
+                check = false;
+            }
+            }  
+            else {
+                $("#wrongLastName").hide();
+                check = false;
+            }
+        }
+
+        function isCorrectDate() {
+            if (userInfo.birthDate.value.length <= 0) {
+                if (!isCorrectBirthDate(userInfo.birthDate.value)) {
+                    //alert("Введите верную дату рождения!");
+                    $("#wrongBirthDate").show();
+                }
+            }
+            else {
+                $("#wrongBirthDate").hide();
+                check = false;
+            }
+        }
+
+        function isCorrectSex() {
+            if (userInfo.sex.value == "") {
+                //alert("Выберите пол, пожалуйста.");
+                $("#wrongGender").show();
+                check = true;
+            }
+            else {
+                $("#wrongGender").hide();
+                check = false;
+            }
+        }
+
+        function isCorrectPhoneNumber() {
+            if (userInfo.number.value.length < 10 || userInfo.number.value.length > 12) {
+                //alert("Введите номер корректно!");
+                $("#wrongPhoneNumber").show();
+                check = true;
+            }
+            else {
+                $("#wrongPhoneNumber").hide();
+                check = false;
+            }
+        }
+
+        function initialCheck() {
+            let check = false;
+
+            let firstName = localStorage.getItem("firstName");
+            let lastName = localStorage.getItem("lastName");
+            let birthDate = localStorage.getItem("birthDate");
+            let phoneNumber = localStorage.getItem("phoneNumber");
+            let sex = localStorage.getItem("sex");
+            let skype = localStorage.getItem("skype");
+            let email = localStorage.getItem("email");
+
+            if (firstName) {
+                userInfo.firstName.value = firstName;
+                check = true;
+            }
+            if (lastName) {
+                userInfo.lastName.value = lastName;
+                check = true;
+            }
+            if (birthDate) {
+                userInfo.birthDate.value = birthDate;
+                check = true;
+            }
+            if (phoneNumber) {
+                userInfo.number.value = phoneNumber;
+                check = true;
+            }
+            if (sex) {
+                userInfo.sex.value = sex;
+                check = true;
+            }
+            if (skype) {
+                userInfo.skype.value = skype;
+                check = true;
+            }
+            if (email) {
+                welcome.innerText += email;
+            }
+
+            if (check) {
+                window.open("registration.html");
+            }
+        }
+
+        function isFormCorrect() {
+            isCorrectFirstName();
+            isCorrectLastName();
+            isCorrectDate();
+            isCorrectSex();
+            isCorrectPhoneNumber();
+
+            if (check) {
+                event.preventDefault();    
+                return;  
+            }
+
+            localStorage.setItem("firstName", userInfo.firstName.value);
+            localStorage.setItem("lastName", userInfo.lastName.value);
+            localStorage.setItem("birthDate", userInfo.birthDate.value);
+            localStorage.setItem("phoneNumber", userInfo.number.value);
+            localStorage.setItem("sex", userInfo.sex.value);
+            if (userInfo.skype.value) {
+                localStorage.setItem("skype", userInfo.skype.value);
+            }
+
+            userInfo.submit();
+        }
+
+        userInfo.firstName.addEventListener("change", isCorrectFirstName);
+        userInfo.lastName.addEventListener("change", isCorrectLastName);
+        userInfo.birthDate.addEventListener("change", isCorrectDate);
+        userInfo.sex.addEventListener("change", isCorrectSex);
+        userInfo.number.addEventListener("change", isCorrectPhoneNumber);
+        exit.addEventListener("click", () => {
+            localStorage.clear();
+        });
+        userInfo.save.addEventListener("click", isFormCorrect);
+        document.addEventListener("DOMContentLoaded", initialCheck);
+    </script>
+</body>
+</html>
