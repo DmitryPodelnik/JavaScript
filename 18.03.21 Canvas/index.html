@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+    <canvas height='400' width='480' id='clocks'>Обновите браузер</canvas>
+
+    <script>
+        "use strict"
+
+        let i = 0;
+        let clocksLineColor = "black"; 
+        let backgroundColor = "#FFF8DC"; 
+        let secondLineColor = "black"; 
+        let clocksSize = 300; 
+        let clocksRadius = clocksSize / 2; 
+        let distanceFromCenterToDots = clocksRadius - 10;
+        let minuteLineSize = (distanceFromCenterToDots - 15) * 0.7; 
+        let secondLineSize = (distanceFromCenterToDots - 15) * 0.8; 
+        let hourLineSize = distanceFromCenterToDots * 0.6; 
+
+        let canvas = document.getElementById("clocks");
+        let ctx = canvas.getContext('2d');
+
+        function ctxLine(x1, y1, length, angle, color, width) { // рисуем линию под углом
+            let x2 = (clocksRadius + 50 + (length * Math.cos(angle)));
+            let y2 = (clocksRadius + 50 + (length * Math.sin(angle)));
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+        function ctxCircle(x, y, radius, color) { // рисуем круг
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = color;
+            ctx.stroke();
+        }
+
+        function ctxCircleMainLine() { // рисуем главную черную обводку
+            ctx.beginPath();
+            ctx.arc(200, 200, clocksRadius, 0, 2 * Math.PI, false);
+            ctx.lineWidth = 7;
+            ctx.strokeStyle = "black";
+            ctx.stroke();
+        }
+
+        function tick() { // рисуем стрелки
+
+            // очистить предыдущие стрелки
+            ctxCircle(clocksRadius + 50, clocksRadius + 50, secondLineSize, backgroundColor);
+
+            // поворот стрелки
+            i = 360 / 3600 * ((new Date().getMinutes() * 60) + new Date().getSeconds());
+          
+            ctxLine(clocksRadius + 50, clocksRadius + 50, minuteLineSize, ((i - 90) / 180 * Math.PI), "grey", 4);// минутная стрелка
+
+            i = 360 / 720 * ((new Date().getHours() * 60) + new Date().getMinutes());
+            ctxLine(clocksRadius + 50, clocksRadius + 50, hourLineSize, ((i - 90) / 180 * Math.PI), "grey", 5);// часовая стрелка
+
+            ctxCircle(clocksRadius + 50, clocksRadius + 50, 9, clocksLineColor); // Круг от стрелки
+
+            i = 360 / (60 * 1000) * ((new Date().getSeconds() * 1000) + new Date().getMilliseconds());
+            ctxLine(clocksRadius + 50, clocksRadius + 50, secondLineSize, ((i - 90) / 180 * Math.PI), secondLineColor, 3); // секундная стрелка
+
+            ctxCircle(clocksRadius + 50, clocksRadius + 50, 6, secondLineColor); // круг от секундной стрелки 
+        }
+
+        function drawClocks() {
+            ctx.fillStyle = backgroundColor;
+            ctx.fillRect(50, 50, canvas.width, canvas.height);
+
+            for (let j = 0; j < 60; j++) { // минутные метки
+                i = 360 / 60 * j;
+                ctxCircle((clocksRadius + (distanceFromCenterToDots * Math.cos((i - 90) / 180 * Math.PI))) + 50, (clocksRadius + (distanceFromCenterToDots * Math.sin((i - 90) / 180 * Math.PI))) + 50, 2, clocksLineColor);
+            }
+            ctxCircleMainLine();
+            
+            for (let j = 0; j < 12; j++) { // часовые метки
+                i = 360 / 12 * j;
+        
+                ctx.fillStyle = "orange"; // оранжевые квадратики
+                ctx.fillRect((clocksRadius + ((distanceFromCenterToDots - 2) * Math.cos((i - 90) / 180 * Math.PI))) + 45, (clocksRadius + ((distanceFromCenterToDots - 2) * Math.sin((i - 90) / 180 * Math.PI))) + 45, 10, 10);
+                ctx.stroke();
+               
+                ctx.font = "20px Verdana"; // цифры
+                ctx.fillStyle = "black";
+                ctx.fillText(j == 0 ? 12 : j, (clocksRadius + ((distanceFromCenterToDots - 20) * Math.cos((i - 90) / 180 * Math.PI))) + 44, (clocksRadius + ((distanceFromCenterToDots - 20) * Math.sin((i - 90) / 180 * Math.PI))) + 57);
+            }
+
+            setInterval('tick(); ', 10);
+        }
+        window.addEventListener("load", drawClocks);
+
+    </script>
+</body>
+</html>
