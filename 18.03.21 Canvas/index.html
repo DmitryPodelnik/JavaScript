@@ -100,7 +100,7 @@
                 ctx.fillText(j == 0 ? 12 : j, (clocksRadius + ((distanceFromCenterToDots - 20) * Math.cos((i - 90) / 180 * Math.PI))) + 44, (clocksRadius + ((distanceFromCenterToDots - 20) * Math.sin((i - 90) / 180 * Math.PI))) + 57);
             }
 
-            setInterval('tick(); ', 1000);
+            setInterval('tick(); ', 10);
         }
         window.addEventListener("load", drawClocks);
 
