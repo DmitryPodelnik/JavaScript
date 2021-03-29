@@ -82,7 +82,7 @@
                 );
                 return result;
             }
-
+            
             static whetherCanMove(figureMatrix, cellRow, cellColumn) {
                 for (let i = 0; i < figureMatrix.length; i++) {
                     for (let j = 0; j < figureMatrix[i].length; j++) {
@@ -293,7 +293,7 @@
                 const figureMatrix = figures[figureName];
 
                 const column = this.playingField[0].length / 2 - Math.ceil(figureMatrix[0].length / 2);
-                const row = figureName === "I" ? -1 : -2;
+                const row = -2;
 
                 return {
                     figureName: figureName,

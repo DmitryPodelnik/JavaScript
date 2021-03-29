@@ -1,0 +1,35 @@
+input[type='text'] {
+    text-align: right;
+}
+
+#result {
+    font-weight: bold;
+    width: fit-content;
+    margin: 0px 10px 0px 0px;
+}
+
+input[name='resultText'] {
+    text-align: left;
+    padding: 2px 10px 2px 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+#sizeText {
+    width: 25px;
+    margin: 0px 5px 0px 5px;
+}
+
+form div {
+    display: flex;
+}
+
+input[name='generate'] {
+    width: fit-content;
+    padding: 2px 25px 2px 25px;
+    margin: 5px;
+}

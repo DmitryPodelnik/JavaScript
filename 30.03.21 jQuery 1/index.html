@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+    <script src="../jQuery/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    
+    <h1>Random string generator</h1>
+    
+    <form>
+        <div>
+            <span>String should be </span>
+            <input type="text" name="size" id="sizeText">
+            <span> characters long.</span>
+        </div>
+    
+        <span>Which characters are allowed to occur in the strings?</span>
+        <div>
+            <input type="checkbox" name="numericDigits" value="numeric" id="numeric"><span>Numeric digits (0-9)</span>
+        </div>
+        <div> 
+            <input type="checkbox" name="uppercaseLetters" value="uppercase" id="uppercase"><span>Uppercase letters (A-Z)</span>
+        </div>  
+        <div>
+            <input type="checkbox" name="lowercaseLetters" value="lowercase" id="lowercase"><span>Lowercase letters (a-z)</span>
+        </div>
+        <input type="button" name="generate" value="Generate" id="generate">
+
+    
+        <hr>
+        
+        <div>
+            <span id="result">Result: </span><input type="text" name="resultText" value="resultText" id="resultText" readonly>
+        </div>
+    </form>
+
+    <script>
+        let numericString = "0123456789";
+        let upperCaseString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let lowerCaseString = "abcdefghijklmnopqrstuvwxyz";
+
+        $("#generate").on("click", function(event) {
+            let resultStr = "";
+            let numeric = $("#numeric").prop("checked");
+            let upperCase = $("#uppercase").prop("checked");
+            let lowerCase = $("#lowercase").prop("checked");
+
+            if (numeric) {
+                resultStr += numericString;
+            }
+            if (upperCase) {
+                resultStr += upperCaseString;
+            }
+            if (lowerCase) {
+                resultStr += lowerCaseString;
+            }
+
+            let result = "";
+            let length = $("#sizeText").val();
+            for (var i = 0; i < length; i++)
+                result += resultStr.charAt(Math.floor(Math.random() * resultStr.length));
+
+            $("#resultText").val(result);
+        })
+    </script>
+</body>
+</html>
