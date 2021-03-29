@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Tetris</title>
+</head>
+<body>
+    
+    <canvas height="640" width="320" id="tetris">Обновите браузер</canvas>
+
+    <script>
+        "use strict"
+        
+        let checkForAnimationError = null;
+
+        const colors = { 
+            "I": "pink", 
+            "X": "maroon", 
+            "T": "purple", 
+            "S": "green", 
+            "Z": "red", 
+            "J": "teal", 
+            "L": "orange"
+        };
+
+        const figures = {
+                "I": [
+                    [0, 0, 0, 0],
+                    [1, 1, 1, 1],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0]
+                ],
+                "J": [
+                    [1, 0, 0],
+                    [1, 1, 1],
+                    [0, 0, 0],
+                ],
+                "L": [
+                    [0, 0, 1],
+                    [1, 1, 1],
+                    [0, 0, 0],
+                ],
+                "X": [
+                    [1, 1],
+                    [1, 1],
+                ],
+                "S": [
+                    [0, 1, 1],
+                    [1, 1, 0],
+                    [0, 0, 0],
+                ],
+                "Z": [
+                    [1, 1, 0],
+                    [0, 1, 1],
+                    [0, 0, 0],
+                ],
+                "T": [
+                    [0, 1, 0],
+                    [1, 1, 1],
+                    [0, 0, 0],
+                ]
+        };
+
+        class Figure {
+            static #square = 32;
+
+
+            static get square() {
+                return this.#square;
+            }
+            static set square(value) {
+                    this.#square = value;
+            }
+
+            static rotateFigure(figureMatrix) {
+                const N = figureMatrix.length - 1;
+                const result = figureMatrix.map((row, i) =>
+                    row.map((val, j) => figureMatrix[N - j][i])
+                );
+                return result;
+            }
+
+            static whetherCanMove(figureMatrix, cellRow, cellColumn) {
+                for (let i = 0; i < figureMatrix.length; i++) {
+                    for (let j = 0; j < figureMatrix[i].length; j++) {
+                        if (figureMatrix[i][j] && (
+                            cellColumn + j < 0 || 
+                            cellColumn + j >= Game.playingField[0].length ||
+                            cellRow + i >= Game.playingField.length ||
+                            Game.playingField[cellRow + i][cellColumn + j])
+                        ) {
+                            return false;        
+                        }
+                    }
+                }
+                return true;
+            }
+
+            static placeFigure() { 
+                for (let i = 0; i < Game.currentFigure.figureMatrix.length; i++) {
+                    for (let j = 0; j < Game.currentFigure.figureMatrix[i].length; j++) {
+                        if (Game.currentFigure.figureMatrix[i][j]) {
+                            if (Game.currentFigure.row + i < 0) {
+                                return Display.showGameOver();
+                            }
+                            Game.playingField[Game.currentFigure.row + i][Game.currentFigure.column + j] = Game.currentFigure.figureName;
+                        }
+                    }
+                }
+
+                for (let i = Game.playingField.length - 1; i >= 0; ) {
+                    if (Game.playingField[i].every(cell => !!cell)) {
+                        for (let j = i; j >= 0; j--) {
+                            for (let k = 0; k < Game.playingField[j].length; k++) {
+                                Game.playingField[j][k] = Game.playingField[j - 1][k];
+                            }
+                        }
+                    }
+                    else {
+                        i--;
+                    }
+                }
+                Game.currentFigure = Game.getNextFigure();
+            }
+        }
+
+        class Timer {
+            static #seconds = 0;
+            static #counter = 0;
+
+            static get seconds() {
+                return this.#seconds;
+            }
+            static set seconds(value) {
+                this.#seconds = value;
+            }
+
+            static get counter() {
+                return this.#counter;
+            }
+            static set counter(value) {
+                this.#counter = value;
+            }
+
+            static setTimer() {
+                let timer = document.createElement("div");
+                    timer.id = "timer";
+                    timer.innerText = "0 seconds elapsed";
+                document.body.append(timer);
+            }
+            static updateTimer() {                
+                let timer = document.getElementById("timer");
+                    timer.innerText = this.seconds + " seconds elapsed";
+            }
+        }
+
+        class Display {
+            static showStartMenu() {
+                Game.ctx.fillStyle = "black";
+                Game.ctx.font = "24px Verdana";
+                Game.ctx.textAlign = "center";
+                Game.ctx.textBaseline = "middle";
+                Game.ctx.fillText("PRESS SPACE TO START", Game.canvas.width / 2, Game.canvas.height / 2);
+            }
+
+            static showGameOver() { 
+                cancelAnimationFrame(checkForAnimationError);
+                document.removeEventListener("keydown", Game.pursueKeys);
+
+                Game.gameOver = true;
+                Game.ctx.fillStyle = "black";
+                Game.ctx.fillRect(0, Game.canvas.height / 2 - 42, Game.canvas.width, 72);
+                Game.ctx.fillStyle = "white";
+                Game.ctx.font = "34px Verdana";
+                Game.ctx.fillText("GAME OVER!", Game.canvas.width / 2, Game.canvas.height / 2);
+            }
+        }
+
+        class Game {
+            static canvas = document.getElementById("tetris");
+            static ctx = this.canvas.getContext("2d");
+            static #nextFigureSequence = [];
+            static playingField = [];
+            static #count = 0;
+            static #gameOver = false;
+            static #currentFigure;
+            static #gameStarted = false;
+
+            static createFigureSequence() {
+                const sequence = ["I", "J", "L", "X", "S", "T", "Z"];
+
+                while (sequence.length) {
+                    const randomFigure = this.getRandomNumber(0, sequence.length - 1);
+                    const figureName = sequence.splice(randomFigure, 1)[0];
+
+                    this.nextFigureSequence.push(figureName);
+                }
+            }
+
+            static getRandomNumber(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            static pursueKeys(event) {
+                if (this.gameOver) {
+                    return;
+                }
+
+                if (event.which === 37 || event.which ===  39) {
+                    const column = event.which === 37 ? Game.currentFigure.column - 1 : Game.currentFigure.column + 1;
+
+                    if (Figure.whetherCanMove(Game.currentFigure.figureMatrix, Game.currentFigure.row, column)) {
+                        Game.currentFigure.column = column;
+                    }
+                }
+
+                if (event.which === 38) {
+                    const matrix = Figure.rotateFigure(Game.currentFigure.figureMatrix);
+                    if (Figure.whetherCanMove(matrix, Game.currentFigure.row, Game.currentFigure.column)) {
+                        Game.currentFigure.figureMatrix = matrix;
+                    }
+                }
+
+                if (event.which === 40) {
+                    const row = Game.currentFigure.row + 1;
+
+                    if (!Figure.whetherCanMove(Game.currentFigure.figureMatrix, row, Game.currentFigure.column)) {
+                        Game.currentFigure.row = row - 1;
+                        Figure.placeFigure();
+                        return;
+                    }
+                    Game.currentFigure.row = row;
+                }
+            }
+
+            static get gameStarted() {
+                return this.#gameStarted;
+            }
+            static set gameStarted(value) {
+                this.#gameStarted = value;
+            }
+
+            static get count() {
+                return this.#count;
+            }
+            static set count(value) {
+                    this.#count = value;
+            }
+
+            static get nextFigureSequence() {
+                return this.#nextFigureSequence;
+            }
+            static set nextFigureSequence(value) {
+                    this.#nextFigureSequence = value;
+            }
+
+            static get currentFigure() {
+                return this.#currentFigure;
+            }
+            static set currentFigure(value) {
+                    this.#currentFigure = value;
+            }
+
+            static get gameOver() {
+                return this.#gameOver;
+            }
+            static set gameOver(value) {
+                this.#gameOver = value;
+            }
+
+            static initPlayingField() {
+                for (let i = -2; i < 20; i++) {
+                    Game.playingField[i] = [];
+
+                    for (let j = 0; j < 10; j++) {
+                        Game.playingField[i][j] = 0;
+                    }
+                }
+            }
+
+            static getNextFigure() {
+                if (this.nextFigureSequence.length === 0) {
+                    this.createFigureSequence();
+                }
+
+                const figureName = Game.nextFigureSequence.pop();
+                const figureMatrix = figures[figureName];
+
+                const column = this.playingField[0].length / 2 - Math.ceil(figureMatrix[0].length / 2);
+                const row = figureName === "I" ? -1 : -2;
+
+                return {
+                    figureName: figureName,
+                    figureMatrix: figureMatrix,
+                    row: row,
+                    column: column
+                };
+            }
+
+            static startGame(checkForAnimationError) {
+                Display.showStartMenu();
+                if (Game.gameStarted) {
+                    Game.initPlayingField();
+                    Game.#currentFigure = Game.getNextFigure();
+                    checkForAnimationError = requestAnimationFrame(mainCycle);
+                }
+            }
+
+            static isGameStarted(event) {
+                if (event.which == 32) {
+                    Game.gameStarted = true;
+                    Timer.setTimer();
+                    document.removeEventListener("keydown", Game.isGameStarted);
+                    Game.startGame(checkForAnimationError);
+                }
+            }
+
+        }
+
+        function mainCycle() {
+                checkForAnimationError = requestAnimationFrame(mainCycle);
+                Game.ctx.clearRect(0, 0, tetris.width, tetris.height);
+
+                for (let i = 0; i < 20; i++) {
+                    for (let j = 0; j < 10; j++) {
+                        if (Game.playingField[i][j]) {
+                            const name = Game.playingField[i][j];
+                            Game.ctx.fillStyle = colors[name];
+                            Game.ctx.fillRect(j * Figure.square, i * Figure.square, Figure.square - 1, Figure.square - 1);
+                        }
+                    }
+                }
+
+                if (++Timer.counter > 70) {
+                    Timer.seconds++;
+                    Timer.updateTimer();
+                    Timer.counter = 0;
+                }
+
+                if (Game.currentFigure) {
+                    if (++Game.count > 35) {
+                        Game.currentFigure.row++;
+                        Game.count = 0;
+
+                        if (!Figure.whetherCanMove(Game.currentFigure.figureMatrix, Game.currentFigure.row, Game.currentFigure.column)) {
+                            Game.currentFigure.row--;
+                            Figure.placeFigure();
+                        }
+                    }
+
+                    Game.ctx.fillStyle = colors[Game.currentFigure.figureName];
+
+                    for (let i = 0; i < Game.currentFigure.figureMatrix.length; i++) {
+                        for (let j = 0; j < Game.currentFigure.figureMatrix[i].length; j++) {
+                            if (Game.currentFigure.figureMatrix[i][j]) {
+                                Game.ctx.fillRect((Game.currentFigure.column + j) * Figure.square, (Game.currentFigure.row + i) * Figure.square, Figure.square - 1, Figure.square - 1);
+                            }
+                        }
+                    }
+                }
+            }
+
+        Game.startGame(checkForAnimationError);
+
+        document.addEventListener("keydown", Game.pursueKeys);
+        document.addEventListener("keydown", Game.isGameStarted);
+
+    </script>
+</body>
+</html>
