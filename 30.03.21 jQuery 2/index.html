@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Document</title>
+    <script src="../jQuery/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    
+    <div id="mainDiv">
+        <div id="leftSide">
+            <div id="leftUpper"></div>
+            <div id="leftPointer">
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div id="leftLower"></div>
+        </div>
+        <div id="hideRow">
+            <div id="rightRow"></div>
+            <div id="leftRow"></div>
+        </div>
+        <div id="rightSide">
+            <div id="rightUpper"></div>
+            <div id="rightPointer">
+                <div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div id="rightLower"></div>
+        </div>
+    </div>
+
+
+    <script>
+        "use strict"
+
+        const minHeight = 100;
+        let changingLeftSide = false;
+        let changingRightSide = false;
+        let posRightTopElement = 0;
+        let posRightDownElement = 0;
+        let posLeftTopElement = 0;
+        let posLeftDownElement = 0;
+        let posMouseY;
+
+        $(document).ready(function() {
+            $("#leftPointer").mousedown(function(event) {
+                changingLeftSide = true;
+                posMouseY = event.pageY;
+                posLeftTopElement = leftUpper.clientHeight;
+                posLeftDownElement = leftLower.clientHeight;
+            })
+            $("#leftPointer").mouseup(function(event) {
+                changingLeftSide = false;
+            })
+            $("#leftSide").mousemove(function(event) {
+                if (changingLeftSide) {
+                    changePositionBlocks(event, posLeftTopElement, posLeftDownElement, leftUpper.id, leftLower.id);
+                }
+            })
+
+            $("#rightPointer").mousedown(function(event) {
+                changingRightSide = true;
+                posMouseY = event.pageY;
+                posRightTopElement = rightUpper.clientHeight;
+                posRightDownElement = rightLower.clientHeight;
+            })
+            $("#rightPointer").mouseup(function(event) {
+                changingRightSide = false;
+            })
+            $("#rightSide").mousemove(function(event) {
+                if (changingRightSide) {
+                    changePositionBlocks(event, posRightTopElement, posRightDownElement, rightUpper.id, rightLower.id);
+                }
+            })
+
+            $('#rightRow').click(function() {
+                $( "#leftSide" ).animate({width: 'toggle'});
+                $( "#hideRow" ).animate({left: '0%'});
+                $( "#rightSide" ).animate({width: '100%'});
+                $('#rightRow').hide();
+                $('#leftRow').show();
+            });
+            $('#leftRow').click(function() {
+                $( "#leftSide" ).animate({width: 'toggle'});
+                $( "#rightSide" ).animate({width: '75%'});
+                $( "#hideRow" ).animate({left: '25%'});
+                $('#rightRow').show();
+                $('#leftRow').hide();
+            });
+        });
+
+        function changePositionBlocks(e, topElementHeight, downElementHeight, topDiv, downDiv) {
+            if (posMouseY < e.pageY) {
+                if (downElementHeight < minHeight) {
+                    return;
+                }
+                topElementHeight += e.pageY - posMouseY;
+                downElementHeight -= e.pageY - posMouseY; 
+            }
+            else {
+                if (topElementHeight < minHeight) {
+                    return;
+                }
+                downElementHeight += posMouseY - e.pageY;
+                topElementHeight -= posMouseY - e.pageY;
+            }
+            $(`#${topDiv}`).css("height", topElementHeight + "px");
+            $(`#${downDiv}`).css("height", downElementHeight + "px");
+        }
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+body > div {
+    display: flex;
+    flex-direction: row;
+    height: 97vh;
+}
+
+body > div:first-child > div:first-child {
+    width: 25%;
+    height: 100%;
+}
+
+body > div:first-child > div:first-child > div:first-child {
+    background-color: #b6dde5;
+    width: 100%;
+    height: 49%;
+}
+
+body > div:first-child > div:first-child > div:nth-child(2) {
+    background-color: rgb(180, 176, 176);
+    height: 2%;
+    width: 100%;
+}
+
+body > div:first-child > div:first-child > div:nth-child(2) > div {
+    margin: auto;
+    width: 20%;
+    height: 100%;
+}
+
+body > div:first-child > div:first-child > div:nth-child(2) > div > div:first-child {
+    background-color: black;
+    padding: 2%;
+    width: 47%;
+    height: 2px;
+}
+
+body > div:first-child > div:first-child > div:nth-child(2) > div > div:last-child {
+    margin-top: 2%;
+    width: 50%;
+    height: 5px;
+    background-color: black;
+}
+
+
+body > div:first-child > div:first-child > div:last-child {
+    background-color:#ffbdc7;
+    height: 50%;
+    width: 100%;
+}
+
+body > div:first-child > div:nth-child(2) {
+    width: 1%;
+    height: 98%;
+    background-color: rgb(180, 176, 176);
+    left: 25%;
+    position: absolute;
+}
+
+body > div:first-child > div:nth-child(2) > div:first-child {
+    border: 1.7vh solid transparent;
+    border-right: 1.7vh solid black;
+    position: absolute;
+    top: 48%;
+    right: 0%;
+}
+
+body > div:first-child > div:nth-child(2) > div:last-child {
+    border: 1.5vh solid transparent;
+    border-left: 1.5vh solid black;
+    position: absolute;
+    top: 48%;
+    left: 0%;
+    display: none;
+}
+
+body > div:first-child > div:last-child {
+    height: 100%;
+    width: 75%;
+}
+
+body > div:first-child > div:last-child > div:first-child{
+    width: 100%;
+    height: 49%;
+    background-color: #28b9b2;
+}
+
+body > div:first-child > div:last-child > div:last-child{
+    width: 100%;
+    height: 50%;
+    background-color: #fcab7c;
+}
+
+body > div:first-child > div:last-child > div:nth-child(2) {
+    height: 2%;
+    width: 100%;
+    background-color: rgb(180, 176, 176);
+}
+
+body > div:first-child > div:last-child > div:nth-child(2) > div {
+    margin: auto;
+    width: 20%;
+    height: 100%; 
+    padding-left: 40%;
+}
+
+body > div:first-child > div:last-child > div:nth-child(2) > div > div:first-child {
+    width: 10%;
+    height: 1px;
+    background-color: black;
+    padding-top: 1%;
+}
+
+body > div:first-child > div:last-child > div:nth-child(2) > div > div:last-child {
+    margin-top: 0.8%;
+    width: 10%;
+    height: 3px;
+    background-color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
